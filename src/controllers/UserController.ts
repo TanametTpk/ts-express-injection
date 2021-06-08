@@ -1,8 +1,10 @@
 import { Request, Response } from "express";
-import { inject, injectable } from "tsyringe";
+import { container, inject, injectable, registry } from "tsyringe";
 import AbstractController from "../abstracts/AbstractController";
 import IUserService from "../interfaces/services/IUserService";
+import UserService from "../services/UserService";
 
+@registry([{ token: "IUserService", useClass: UserService }])
 @injectable()
 export default class UserController extends AbstractController {
 	constructor(@inject("IUserService") private userService: IUserService) {
@@ -36,3 +38,5 @@ export default class UserController extends AbstractController {
 		res.json(await this.userService.deleteUser(id));
 	}
 }
+
+container.register("Controller", UserController);

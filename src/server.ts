@@ -4,7 +4,7 @@ import http from "http";
 import { container } from "tsyringe";
 import AbstractController from "./abstracts/AbstractController";
 import UserController from "./controllers/UserController";
-import registerServices from "./configs/injections/registerServices";
+import { registerController } from "./configs/http/controllers";
 
 export default class Server implements IServer {
 	private app: Application;
@@ -26,12 +26,9 @@ export default class Server implements IServer {
 	}
 
 	private configControllers() {
-		registerServices();
-		const userController: AbstractController = container.resolve(UserController);
-		// const todoController: AbstractController = container.resolve(TodoController);
-
-		this.app.use(userController.getPath(), userController.getRoutes());
-		// this.app.use("/todos", todoController.getRoutes());
+		registerController();
+		const controllers: AbstractController[] = container.resolveAll("Controller");
+		controllers.map((controller) => this.app.use(controller.getPath(), controller.getRoutes()));
 	}
 
 	public start(): void {
