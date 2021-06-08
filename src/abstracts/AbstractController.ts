@@ -2,20 +2,22 @@ import { Router } from "express";
 
 export default abstract class AbstractController {
 	protected routes: Router;
-	private isConfigured: boolean;
+	private path: string;
 
-	constructor() {
+	constructor(path: string) {
 		this.routes = Router();
-		this.isConfigured = false;
+		this.path = path;
+
+		this.configureRoute();
 	}
 
 	abstract configureRoute(): void;
 
 	public getRoutes(): Router {
-		if (!this.isConfigured) {
-			this.configureRoute();
-			this.isConfigured = true;
-		}
 		return this.routes;
+	}
+
+	public getPath(): string {
+		return this.path;
 	}
 }

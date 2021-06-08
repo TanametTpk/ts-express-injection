@@ -30,7 +30,7 @@ export default class Server implements IServer {
 		const userController: AbstractController = container.resolve(UserController);
 		// const todoController: AbstractController = container.resolve(TodoController);
 
-		this.app.use("/users", userController.getRoutes());
+		this.app.use(userController.getPath(), userController.getRoutes());
 		// this.app.use("/todos", todoController.getRoutes());
 	}
 

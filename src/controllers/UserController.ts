@@ -6,7 +6,7 @@ import IUserService from "../interfaces/services/IUserService";
 @injectable()
 export default class UserController extends AbstractController {
 	constructor(@inject("IUserService") private userService: IUserService) {
-		super();
+		super("/users");
 	}
 
 	configureRoute(): void {
