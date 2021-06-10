@@ -1,10 +1,13 @@
 import { Request, Response } from "express";
-import { container, injectable } from "tsyringe";
+import { container, inject, injectable, registry } from "tsyringe";
 import AbstractController from "../abstracts/AbstractController";
+import ITodoService from "../interfaces/services/ITodoService";
+import TodoService from "../services/TodoService";
 
+@registry([{ token: "ITodoService", useClass: TodoService }])
 @injectable()
 export default class TodoController extends AbstractController {
-	constructor() {
+	constructor(@inject("ITodoService") private todoService: ITodoService) {
 		super("/todo");
 	}
 
@@ -13,7 +16,7 @@ export default class TodoController extends AbstractController {
 	}
 
 	async getTodo(req: Request, res: Response) {
-		res.json([]);
+		res.json(await this.todoService.getTodo());
 	}
 }
 
