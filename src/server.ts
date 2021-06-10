@@ -3,7 +3,6 @@ import IServer from "./interfaces/IServer";
 import http from "http";
 import { container } from "tsyringe";
 import AbstractController from "./abstracts/AbstractController";
-import UserController from "./controllers/UserController";
 import { registerController } from "./configs/http/controllers";
 
 export default class Server implements IServer {
